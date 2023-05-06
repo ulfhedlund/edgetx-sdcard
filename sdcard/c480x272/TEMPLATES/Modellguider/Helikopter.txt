@@ -1,0 +1,3 @@
+Skapa en helikopter med grundläggande funktioner, genom att använda en modellguide för att hjälpa dig med konfigurationen.
+
+OBS! För att bli fullt funktionell behöver sändarens programvara ha tillvalet HELI. 

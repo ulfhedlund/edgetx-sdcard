@@ -1,0 +1,1 @@
+Skapa ett flygplan med grundläggande funktioner, genom att använda en modellguide för att hjälpa dig med konfigurationen.

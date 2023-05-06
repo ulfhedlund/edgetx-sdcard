@@ -1,0 +1,1 @@
+Olika mallar som du kan använda för att skapa grundläggande modeller vilka sedan kan konfigureras i en guide, där du genom att svara på en serie frågor får hjälp med konfigurationen av modellen.

@@ -1,0 +1,1 @@
+Skapa ett segelplan med grundläggande funktioner, med eller utan motor, genom att använda en modellguide för att hjälpa dig med konfigurationen.
