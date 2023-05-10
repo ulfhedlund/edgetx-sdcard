@@ -151,8 +151,7 @@ local function drawEngineMenu()
     lcd.drawSource(25, 40, MIXSRC_CH1+thrCH1, getFieldFlags(1))
     fieldsMax = 1
   end
-  lcd.drawText(1, 0, "Finns motor?", 0)
-  lcd.drawFilledRectangle(0, 0, LCD_W, 8, FILL_WHITE)
+  lcd.drawScreenTitle("Finns motor?",1,4)
   lcd.drawCombobox(0, 8, LCD_W, engineModeItems, engineMode, getFieldFlags(0))
 end
 
@@ -175,8 +174,7 @@ end
 local elevonsModeItems = {"Två kanaler"}
 local function drawElevonsMenu()
   lcd.clear()
-  lcd.drawText(1, 0, "Ange elevonkanaler", 0)
-  lcd.drawFilledRectangle(0, 0, LCD_W, 8, FILL_WHITE)
+  lcd.drawScreenTitle("Ange elevonkanaler",2,4)
   lcd.drawCombobox(0, 8, LCD_W, elevonsModeItems, elevonsMode, 0)
   lcd.drawText(5, 30, "Ange kanaler", 0);
   lcd.drawText(30, 40, "V", 0);
@@ -217,8 +215,7 @@ local function drawRudderMenu()
     lcd.drawSource(25, 40, MIXSRC_CH1+rudCH1, getFieldFlags(1))
     fieldsMax = 1
   end
-  lcd.drawText(1, 0, "Finns sidroder?", 0)
-  lcd.drawFilledRectangle(0, 0, LCD_W, 8, FILL_WHITE)
+  lcd.drawScreenTitle("Finns sidroder?",3,4)
   lcd.drawCombobox(0, 8, LCD_W, rudderModeItems, rudderMode, getFieldFlags(0))
 end
 
@@ -242,7 +239,7 @@ local function drawServoMenu(limits)
   lcd.clear()
   lcd.drawSource(1, 0, MIXSRC_CH1+servoPage, 0)
   lcd.drawText(25, 0, "servo min/max/center/riktning?", 0)
-  lcd.drawFilledRectangle(0, 0, LCD_W, 8, FILL_WHITE)
+  lcd.drawFilledRectangle(0, 0, LCD_W, 8, GREY_DEFAULT)
   lcd.drawText(LCD_W/2-19, LCD_H-8, ">>>", 0);
   lcd.drawNumber(140, 35, limits.min, PREC1+getFieldFlags(0));
   lcd.drawNumber(205, 35, limits.max, PREC1+getFieldFlags(1));
@@ -312,7 +309,7 @@ end
 local function drawNextLine(x, y, label, channel)
   lcd.drawText(x, y, label, 0);
   lcd.drawText(x+48, y, ":", 0);
-  lcd.drawSource(x+52, y, MIXSRC_CH1+channel, 0)
+  lcd.drawSource(x+54, y, MIXSRC_CH1+channel, 0)
   y = y + 8
   if y > 50 then
     y = 12
@@ -325,8 +322,7 @@ local function drawConfirmationMenu()
   local x = 22
   local y = 12
   lcd.clear()
-  lcd.drawText(48, 1, "Färdig?", 0);
-  lcd.drawFilledRectangle(0, 0, LCD_W, 9, 0)
+  lcd.drawScreenTitle("Färdig?",4,4)
   if engineMode == 1 then
     x, y = drawNextLine(x, y, "Gas", thrCH1)
   end
@@ -335,7 +331,7 @@ local function drawConfirmationMenu()
   if rudderMode == 1 then
     drawNextLine(x, y, "Sidroder", rudCH1)
   end
-  lcd.drawText(0, LCD_H-8, "Lång [Enter] sparar", 0);
+  lcd.drawText(2, LCD_H-8, "Lång [Enter] sparar", 0);
   lcd.drawFilledRectangle(0, LCD_H-9, LCD_W, 9, 0)
   fieldsMax = 0
 end

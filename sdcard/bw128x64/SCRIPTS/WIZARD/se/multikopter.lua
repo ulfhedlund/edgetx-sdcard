@@ -181,8 +181,7 @@ end
 -- Throttle Menu
 local function drawThrottleMenu()
   lcd.clear()
-  lcd.drawText(1, 0, "Multikopter", 0)
-  lcd.drawFilledRectangle(0, 0, LCD_W, 8, FILL_WHITE)
+  lcd.drawScreenTitle("Multikopter",1,8)
   lcd.drawCombobox(0, 8, LCD_W, {"Gas"}, comboBoxMode, getFieldFlags(1))
   lcd.drawText(5, 30, "Ange kanal", 0);
   lcd.drawText(5, 40, ">>>", 0);
@@ -202,8 +201,7 @@ end
 -- Roll Menu
 local function drawRollMenu()
   lcd.clear()
-  lcd.drawText(1, 0, "Multikopter", 0)
-  lcd.drawFilledRectangle(0, 0, LCD_W, 8, FILL_WHITE)
+  lcd.drawScreenTitle("Multikopter",2,8)
   lcd.drawCombobox(0, 8, LCD_W, {"Roll"}, comboBoxMode, getFieldFlags(1))
   lcd.drawText(5, 30, "Ange kanal", 0);
   lcd.drawText(5, 40, ">>>", 0);
@@ -223,8 +221,7 @@ end
 -- Pitch Menu
 local function drawPitchMenu()
   lcd.clear()
-  lcd.drawText(1, 0, "MultiKopter", 0)
-  lcd.drawFilledRectangle(0, 0, LCD_W, 8, FILL_WHITE)
+  lcd.drawScreenTitle("Multikopter",3,8)
   lcd.drawCombobox(0, 8, LCD_W, {"Pitch"}, comboBoxMode, getFieldFlags(1))
   lcd.drawText(5, 30, "Ange kanal", 0);
   lcd.drawText(5, 40, ">>>", 0);
@@ -244,8 +241,7 @@ end
 -- Yaw Menu
 local function drawYawMenu()
   lcd.clear()
-  lcd.drawText(1, 0, "Multikopter", 0)
-  lcd.drawFilledRectangle(0, 0, LCD_W, 8, FILL_WHITE)
+  lcd.drawScreenTitle("Multikopter",4,8)
   lcd.drawCombobox(0, 8, LCD_W, {"Yaw"}, comboBoxMode, getFieldFlags(1))
   lcd.drawText(5, 30, "Ange kanal", 0);
   lcd.drawText(5, 40, ">>>", 0);
@@ -265,8 +261,7 @@ end
 -- Arm Menu
 local function drawArmMenu()
   lcd.clear()
-  lcd.drawText(1, 0, "Multikopter", 0)
-  lcd.drawFilledRectangle(0, 0, LCD_W, 8, FILL_WHITE)
+  lcd.drawScreenTitle("Multikopter",5,8)
   lcd.drawCombobox(0, 8, LCD_W, {"Av/på"}, comboBoxMode, getFieldFlags(1))
   lcd.drawText(5, 30, "Ange brytare", 0);
   lcd.drawText(5, 40, ">>>", 0);
@@ -286,8 +281,7 @@ end
 -- Beeper Menu
 local function drawbeeperMenu()
   lcd.clear()
-  lcd.drawText(1, 0, "Multikopter", 0)
-  lcd.drawFilledRectangle(0, 0, LCD_W, 8, FILL_WHITE)
+  lcd.drawScreenTitle("Multikopter",7,8)
   lcd.drawCombobox(0, 8, LCD_W, {"Tuta/pip"}, comboBoxMode, getFieldFlags(1))
   lcd.drawText(5, 30, "Ange brytare", 0);
   lcd.drawText(5, 40, ">>>", 0);
@@ -307,9 +301,8 @@ end
 -- Mode Menu
 local function drawmodeMenu()
   lcd.clear()
-  lcd.drawText(1, 0, "Multikopter", 0)
-  lcd.drawFilledRectangle(0, 0, LCD_W, 8, FILL_WHITE)
-  lcd.drawCombobox(0, 8, LCD_W, {"FLygläge"}, comboBoxMode, getFieldFlags(1))
+  lcd.drawScreenTitle("Multikopter",6,8)
+  lcd.drawCombobox(0, 8, LCD_W, {"Flygläge"}, comboBoxMode, getFieldFlags(1))
   lcd.drawText(5, 30, "Ange brytare", 0);
   lcd.drawText(5, 40, ">>>", 0);
   lcd.drawText(25, 40, switches[modeSW1], getFieldFlags(0))
@@ -328,12 +321,12 @@ end
 -- Confirmation Menu
 local function drawNextLine(x, y, label, channel)
   lcd.drawText(x, y, label, 0);
-  lcd.drawText(x+46, y, ":", 0);
-  lcd.drawSource(x+50, y, MIXSRC_CH1+channel, 0)
+  lcd.drawText(x+30, y, ":", 0);
+  lcd.drawSource(x+34, y, MIXSRC_CH1+channel, 0)
   y = y + 8
   if y > 50 then
     y = 12
-    x = 120
+    x = 90
   end
   return x, y
 end
@@ -354,8 +347,7 @@ local function drawConfirmationMenu()
   local x = 1
   local y = 12
   lcd.clear()
-  lcd.drawText(0, 1, "Färdig?", 0);
-  lcd.drawFilledRectangle(0, 0, LCD_W, 9, 0)
+  lcd.drawScreenTitle("Färdig?",8,8)
   x, y = drawNextLine(x, y, "Gas", thrCH1)
   x, y = drawNextLine(x, y, "Roll", rollCH1)
   x, y = drawNextLine(x, y, "Pitch", pitchCH1)
@@ -365,7 +357,7 @@ local function drawConfirmationMenu()
   x, y = drawNextSWLine(x, y, "Av/på", armSW1)
   x, y = drawNextSWLine(x, y, "Tuta", beeperSW1)
   x, y = drawNextSWLine(x, y, "F-läge", modeSW1)
-  lcd.drawText(0, LCD_H-8, "Lång [Enter] sparar", 0);
+  lcd.drawText(2, LCD_H-8, "Lång [Enter] sparar", 0);
   lcd.drawFilledRectangle(0, LCD_H-9, LCD_W, 9, 0)
   fieldsMax = 0
 end

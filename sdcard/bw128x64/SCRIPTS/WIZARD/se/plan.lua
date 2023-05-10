@@ -161,8 +161,7 @@ local function drawEngineMenu()
     -- No engine
     fieldsMax = 0
   end
-  lcd.drawText(1, 0, "Finns motor?", 0)
-  lcd.drawFilledRectangle(0, 0, LCD_W, 8, FILL_WHITE)
+  lcd.drawScreenTitle("Finns motor?",1,6)
   lcd.drawCombobox(0, 8, LCD_W, engineModeItems, engineMode, getFieldFlags(0))
 end
 
@@ -204,8 +203,7 @@ local function drawAileronsMenu()
     -- No ailerons
     fieldsMax = 0
   end
-  lcd.drawText(1, 0, "Finns skevroder?", 0)
-  lcd.drawFilledRectangle(0, 0, LCD_W, 8, FILL_WHITE)
+  lcd.drawScreenTitle("Finns skevroder?",2,6)
   lcd.drawCombobox(0, 8, LCD_W, aileronsModeItems, aileronsMode, getFieldFlags(0))
 end
 
@@ -249,8 +247,7 @@ local function drawFlapsMenu()
     lcd.drawSource(60, 50, MIXSRC_CH1+flapsCH2, getFieldFlags(2))
     fieldsMax = 2
   end
-  lcd.drawText(1, 0, "Finns klaffar?", 0)
-  lcd.drawFilledRectangle(0, 0, LCD_W, 8, FILL_WHITE)
+  lcd.drawScreenTitle("Finns klaffar?",3,6)
   lcd.drawCombobox(0, 8, LCD_W, flapsModeItems, flapsMode, getFieldFlags(0))
 end
 
@@ -294,8 +291,7 @@ local function drawBrakesMenu()
     lcd.drawSource(60, 50, MIXSRC_CH1+brakesCH2, getFieldFlags(2))
     fieldsMax = 2
   end
-  lcd.drawText(1, 0, "Finns luftbroms?", 0)
-  lcd.drawFilledRectangle(0, 0, LCD_W, 8, FILL_WHITE)
+  lcd.drawScreenTitle("Finns luftbroms?",4,6)
   lcd.drawCombobox(0, 8, LCD_W, brakesModeItems, brakesMode, getFieldFlags(0))
 end
 
@@ -356,8 +352,7 @@ local function drawTailMenu()
     lcd.drawSource(60, 50, MIXSRC_CH1+eleCH2, getFieldFlags(2))
     fieldsMax = 2
   end
-  lcd.drawText(1, 0, "Stjärttyp", 0)
-  lcd.drawFilledRectangle(0, 0, LCD_W, 8, FILL_WHITE)
+  lcd.drawScreenTitle("Stjärttyp?",5,6)
   lcd.drawCombobox(0, 8, LCD_W, tailModeItems, tailMode, getFieldFlags(0))
 end
 
@@ -385,7 +380,7 @@ local function drawServoMenu(limits)
   lcd.clear()
   lcd.drawSource(1, 0, MIXSRC_CH1+servoPage, 0)
   lcd.drawText(25, 0, "servo min/max/center/riktning?", 0)
-  lcd.drawFilledRectangle(0, 0, LCD_W, 8, FILL_WHITE)
+  lcd.drawFilledRectangle(0, 0, LCD_W, 8, GREY_DEFAULT)
   lcd.drawLine(LCD_W/2-1, 8, LCD_W/2-1, LCD_H, DOTTED, 0)
   lcd.drawText(LCD_W/2-19, LCD_H-8, ">>>", 0);
   lcd.drawNumber(140, 35, limits.min, PREC1+getFieldFlags(0));
@@ -429,8 +424,8 @@ end
 -- Confirmation Menu
 local function drawNextLine(x, y, label, channel)
   lcd.drawText(x, y, label, 0);
-  lcd.drawText(x+26, y, ":", 0);
-  lcd.drawSource(x+30, y, MIXSRC_CH1+channel, 0)
+  lcd.drawText(x+30, y, ":", 0);
+  lcd.drawSource(x+35, y, MIXSRC_CH1+channel, 0)
   y = y + 8
   if y > 50 then
     y = 12
@@ -443,8 +438,7 @@ local function drawConfirmationMenu()
   local x = 5
   local y = 12
   lcd.clear()
-  lcd.drawText(0, 1, "Färdig?", 0);
-  lcd.drawFilledRectangle(0, 0, LCD_W, 9, 0)
+  lcd.drawScreenTitle("Färdig?",6,6)
   if engineMode == 1 then
     x, y = drawNextLine(x, y, "Gas", thrCH1)
   end
@@ -478,7 +472,7 @@ local function drawConfirmationMenu()
       x, y = drawNextLine(x, y, "HjdH", eleCH2)
     end
   end
-  lcd.drawText(0, LCD_H-8, "Lång [Enter] sparar", 0);
+  lcd.drawText(2, LCD_H-8, "Lång [Enter] sparar", 0);
   lcd.drawFilledRectangle(0, LCD_H-9, LCD_W, 9, 0)
   fieldsMax = 0
 end
