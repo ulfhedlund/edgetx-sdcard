@@ -1,6 +1,6 @@
 ---- #########################################################################
 ---- #                                                                       #
----- # Telemetry Widget script for FrSky Horus/RadioMaster TX16s             #
+---- # Telemetry Widget script for RadioMaster TX16S                         #
 ---- # Copyright (C) EdgeTX                                                  #
 -----#                                                                       #
 ---- # License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html               #
@@ -19,13 +19,14 @@
 -- Widget to display the levels of lipo/li-ion battery with indication of each cell (FLVSS)
 -- 3djc & Offer Shmuely
 -- Date: 2022
--- ver: 0.8
-local version = "v0.8"
-
 local app_name = "BattCheck"
+local app_ver = "0.9"
+
+local lib_sensors = loadScript("/WIDGETS/" .. app_name .. "/lib_sensors.lua", "tcd")(m_log,app_name)
+local DEFAULT_SOURCE = lib_sensors.findSourceId( {"Cels"})
 
 local _options = {
-    { "Sensor"      , SOURCE, 0      }, -- default to 'Cels'
+    { "Sensor"      , SOURCE, DEFAULT_SOURCE }, -- default to 'Cels'
     { "Color"       , COLOR , YELLOW },
     { "Shadow"      , BOOL  , 0      },
     { "LowestCell"  , BOOL  , 1      }, -- 0=main voltage display shows all-cell-voltage, 1=main voltage display shows lowest-cell

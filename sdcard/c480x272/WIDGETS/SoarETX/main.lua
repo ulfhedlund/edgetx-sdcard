@@ -2,8 +2,9 @@
 -- SoarETX widget                                                        --
 --                                                                       --
 -- Author:  Jesper Frickmann                                             --
--- Date:    2022-11-22                                                   --
--- Version: 1.0.1                                                        --
+-- Improvements: Frankie Arzu                                            --
+-- Date:    2024-01-15                                                   --
+-- Version: 1.2.0                                                        --
 --                                                                       --
 -- Copyright (C) EdgeTX                                                  --
 --                                                                       --
@@ -20,8 +21,9 @@
 ---------------------------------------------------------------------------
 
 local options = {
-  { "Version", VALUE, 1, 1, 99 },
-  { "FileName", STRING, "" }
+  { "Version", VALUE, 1, 1, 2 },
+  { "FileName", STRING, "" },
+  { "Type", STRING, "" }          --  F3K|F3K_TRAD|F3K_FH|F3K_RE|F3J|F5J
 }
 
 local soarGlobals
@@ -32,21 +34,21 @@ local rxBatNxtCheck = 0
 
 function rxBatCheck()
   local now = getTime()
-	
+
 	if now < rxBatNxtCheck then
 		return
 	end
-	
+
 	rxBatNxtCheck = now + 100
-  
+
 	local rxBatSrc = getFieldInfo("Cels")
 	if not rxBatSrc then rxBatSrc = getFieldInfo("RxBt") end
 	if not rxBatSrc then rxBatSrc = getFieldInfo("A1") end
 	if not rxBatSrc then rxBatSrc = getFieldInfo("A2") end
-  
+
   if rxBatSrc then
     soarGlobals.battery = getValue(rxBatSrc.id)
-    
+
     if type(soarGlobals.battery) == "table" then
       for i = 2, #soarGlobals.battery do
         soarGlobals.battery[1] = math.min(soarGlobals.battery[1], soarGlobals.battery[i])
@@ -75,17 +77,46 @@ local function Load(widget)
   end
 end
 
+local function GetCurve(crvIndex)
+  local N = 5
+
+  local oldTbl = model.getCurve(crvIndex)
+
+  if #oldTbl.y == N then -- Normal Behaviour
+    return oldTbl
+  end
+
+  -- Work arround the bug of GetCurve in some versions (2.8.3) of ETX
+  if #oldTbl.y == N - 1 then
+    local newTbl = { }
+    newTbl.y = { }
+    for p = 1, N do
+      newTbl.y[p] = oldTbl.y[p - 1]
+    end
+    newTbl.smooth = 1
+    newTbl.name = oldTbl.name
+    return newTbl
+  end
+
+  return oldTbl
+end -- GetCurve()
+
+
 -- Initialize the first time this widget is instantiated
 local function init()
   soarGlobals = {
     path = "/WIDGETS/SoarETX/",
     battery = 0,
-    batteryParameter = 1
+    batteryParameter = 1,
+    getCurve = GetCurve
   }
+  soarGlobals.libGUI = loadScript("/WIDGETS/SoarETX/libgui.lua")()
+  local gui = soarGlobals.libGUI.newGUI()
+
 
   -- Functions to handle persistent model parameters stored in curve 32
-  local parameterCurve = model.getCurve(31)
-  
+  local parameterCurve = GetCurve(31)
+
   if not parameterCurve then
     error("Curve #32 is missing! It is used to store persistent model parameters for Lua.")
   end
@@ -105,7 +136,7 @@ local function create(zone, options)
   if not soarGlobals then
     init()
   end
-  
+
   local widget = {
     zone = zone,
     options = options
@@ -117,7 +148,7 @@ end
 local function update(widget, options)
   if options.Version ~= widget.options.Version or options.FileName ~= widget.options.FileName then
     local zone = widget.zone
-    
+
     -- Erase all fields in widget
     local keys = { }
     for key in pairs(widget) do
@@ -126,7 +157,7 @@ local function update(widget, options)
     for i, key in ipairs(keys) do
       widget[key] = nil
     end
-    
+
     widget.zone = zone
     widget.options = options
     Load(widget)
@@ -150,10 +181,10 @@ local function background(widget)
 end
 
 return {
-  name = "SoarETX", 
-  create = create, 
-  refresh = refresh, 
-  options = options, 
-  update = update, 
+  name = "SoarETX",
+  create = create,
+  refresh = refresh,
+  options = options,
+  update = update,
   background = background
 }

@@ -2,15 +2,19 @@ name: Build Releases
 
 on:
   push:
-    branches: 
-    - master
+    branches:
+      - 2.10
+      - 2.11
+      - master
+    tags:
+      - v*
     paths-ignore:
-    - '**/README.md'
+      - "**/README.md"
   pull_request:
-    branches: 
-    - master
+    branches:
+      - master
     paths-ignore:
-    - '**/README.md'
+      - "**/README.md"
 
   workflow_dispatch:
 
@@ -27,10 +31,10 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: sdcard-latest
-          path:  |
+          path: |
             dist/*
             sdcard.json
-      
+
   upload-release:
     if: github.event_name != 'pull_request'
     needs: build-artifact
@@ -41,16 +45,22 @@ jobs:
           name: sdcard-latest
           path: .
       - name: Deploy release
-        uses: marvinpinto/action-automatic-releases@latest
+        uses: crowbarmaster/GH-Automatic-Releases@latest
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: 'latest'
+          automatic_release_tag: "latest"
           prerelease: true
           title: "Latest"
           files: |
-            dist/bw212x64.zip
-            dist/bw128x64.zip
-            dist/c320x480.zip
-            dist/c480x272.zip
-            dist/c480x320.zip
+            dist/*
+            sdcard.json
+      - name: Auto Create Draft Release
+        uses: crowbarmaster/GH-Automatic-Releases@latest
+        if: startsWith(github.event.ref, 'refs/tags/v')
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          draft: true
+          prerelease: false
+          files: |
+            dist/*
             sdcard.json
