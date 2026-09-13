@@ -39,7 +39,7 @@
 -- Author : Offer Shmuely
 -- Date: 2021-2023
 local app_name = "GaugeRotary"
-local app_ver = "0.12"
+local app_ver = "0.13"
 ------------------------------------------------------------------------------------------------------------------
 -- configuration
 local enable_min_max = 1                     -- 0=no min/max display, 1=display min/max
@@ -72,7 +72,7 @@ local FONT_8 = 0 -- Default 8px
 local FONT_6 = SMLSIZE -- 6px
 
 
-local lib_sensors = loadScript("/WIDGETS/" .. app_name .. "/lib_sensors.lua", "tcd")(m_log,app_name)
+local lib_sensors = loadScript("/WIDGETS/" .. app_name .. "/lib_sensors.lua", "btd")(m_log,app_name)
 local DEFAULT_SOURCE = lib_sensors.findSourceId( {"RQLY", "VFR", "cell","cels","RSSI","RxBt"})
 
 local _options = {
@@ -86,9 +86,9 @@ local _options = {
 }
 
 -- imports
-local LibLogClass = loadScript("/WIDGETS/" .. app_name .. "/lib_log.lua", "tcd")
-local LibWidgetToolsClass = loadScript("/WIDGETS/" .. app_name .. "/lib_widget_tools.lua", "tcd")
-local GaugeClass = loadScript("/WIDGETS/" .. app_name .. "/gauge_core.lua", "tcd")
+local LibLogClass = loadScript("/WIDGETS/" .. app_name .. "/lib_log.lua", "btd")
+local LibWidgetToolsClass = loadScript("/WIDGETS/" .. app_name .. "/lib_widget_tools.lua", "btd")
+local GaugeClass = loadScript("/WIDGETS/" .. app_name .. "/gauge_core.lua", "btd")
 
 local m_log = LibLogClass(app_name, "/WIDGETS/" .. app_name)
 
@@ -366,14 +366,8 @@ local function refresh(wgt, event, touchState)
     --lcd.drawRectangle(wgt.zone.x, wgt.zone.y, wgt.zone.w, wgt.zone.h, BLACK)
 
     local ver, radio, maj, minor, rev, osname = getVersion()
-    --log("version: " .. ver)
-    if osname ~= "EdgeTX" then
-        local err = string.format("supported only on EdgeTX: ", osname)
-        log(err)
-        lcd.drawText(0, 0, err, FONT_6)
-        return
-    end
-    if maj == 2 and minor < 7 then
+    local nVer = maj*1000000 + minor*1000 + rev
+    if nVer < 2007000 then
         local err = string.format("NOT supported ver: %s", ver)
         log(err)
         lcd.drawText(0, 0, err, FONT_6)

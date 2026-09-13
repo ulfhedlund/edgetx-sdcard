@@ -26,7 +26,7 @@ chdir("/SCRIPTS/TOOLS/FrSky_Gyro_Suite/FrSky_S8R_S6R")
 -- Updated by: Offer Shmuely
 -- Date: 2023
 
-local app_ver = "v2.08-etx"
+local app_ver = "v2.08a-etx"
 local app_name = "FrSky_Gyro_Suite"
 
 local T_VALUE = 0
@@ -129,7 +129,7 @@ local function is_simulator()
 end
 
 local function drawScreenTitle(title, page, pages)
-    lcd.drawFilledRectangle(0, 0, LCD_W, 30, TITLE_BGCOLOR)
+    lcd.drawFilledRectangle(0, 0, LCD_W, 30, COLOR_THEME_SECONDARY1)
     lcd.drawText(10, 5, title.." ("..app_ver..")", COLOR_THEME_PRIMARY2)
     lcd.drawText(LCD_W - 40, 5, page .. "/" .. pages, COLOR_THEME_PRIMARY2)
 end
@@ -484,7 +484,7 @@ end
 local function init()
     current, edit, refreshState, refreshIndex = 1, false, 0, 0
     wingBitmapsFile = { "img/plane_b.png", "img/delta_b.png", "img/planev_b.png" }
-    mountBitmapsFile = { "img/up.png", "img/down.png", "img/vert.png", "img/vert-r.png" }
+    mountBitmapsFile = { "img/rx_up.png", "img/rx_down.png", "img/rx_vert.png", "img/rx_vert-r.png" }
 
     pages = {
         runConfigPage,
